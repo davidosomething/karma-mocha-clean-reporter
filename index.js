@@ -16,6 +16,9 @@ var MochaReporter = function (baseReporterDecorator, formatError, config) {
 
     var self = this;
     var firstRun = true;
+    var onlyPrintSummaryAndErrors = false;
+
+    config.mochaReporter = config.mochaReporter || {};
 
     // disable chalk when colors is set to false
     if (config.colors === false) {
@@ -250,7 +253,11 @@ var MochaReporter = function (baseReporterDecorator, formatError, config) {
 
                 if (item.count === self.numberOfBrowsers) {
                     // print results to output when test is run through all browsers
-                    print(self.allResults, depth);
+                    if (onlyPrintSummaryAndErrors) {
+                        self.write('.');
+                    } else {
+                        print(self.allResults, depth);
+                    }
                 }
             } else {
                 item.items = item.items || {};
@@ -284,7 +291,7 @@ var MochaReporter = function (baseReporterDecorator, formatError, config) {
     };
 
     self.onRunComplete = function (browsers, results) {
-        browsers.forEach(function(browser){
+        browsers.forEach(function (browser) {
             self.totalTime += browser.lastResult.totalTime;
         });
 
@@ -308,6 +315,10 @@ var MochaReporter = function (baseReporterDecorator, formatError, config) {
 
                 printFailures(self.allResults);
             }
+        }
+
+        if (config.mochaReporter.autowatch) {
+            onlyPrintSummaryAndErrors = true;
         }
     };
 };
