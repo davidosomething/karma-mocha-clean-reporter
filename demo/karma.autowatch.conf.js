@@ -16,7 +16,7 @@ module.exports = function (config) {
         reporters: ['mocha'],
 
         mochaReporter: {
-            autowatch: true
+            output: 'autowatch'
         },
 
         // web server port
