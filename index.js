@@ -342,5 +342,5 @@ MochaReporter.$inject = ['baseReporterDecorator', 'formatError', 'config'];
 
 // PUBLISH DI MODULE
 module.exports = {
-    'reporter:mochaClean': ['type', MochaReporter]
+    'reporter:mocha-clean': ['type', MochaReporter]
 };
