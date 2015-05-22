@@ -3,6 +3,8 @@
 var chalk = require('chalk');
 var logSymbols = require('log-symbols');
 
+var mochaClean = require('mocha-clean');
+
 /**
  * The MochaReporter.
  *
@@ -162,7 +164,9 @@ var MochaReporter = function (baseReporterDecorator, formatError, config) {
                     item.log = item.log || [];
 
                     item.log.forEach(function (error) {
-                        line += chalk.red(formatError(error, repeatString('  ', depth)));
+                        var cleanedError = mochaClean.cleanError(error);
+                        var indentedError = formatError(cleanedError, repeatString('  ', depth));
+                        line += chalk.red(indentedError);
                     });
                 }
 
@@ -337,5 +341,5 @@ MochaReporter.$inject = ['baseReporterDecorator', 'formatError', 'config'];
 
 // PUBLISH DI MODULE
 module.exports = {
-    'reporter:mocha': ['type', MochaReporter]
+    'reporter:mochaClean': ['type', MochaReporter]
 };
