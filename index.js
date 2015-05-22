@@ -164,8 +164,9 @@ var MochaReporter = function (baseReporterDecorator, formatError, config) {
                     item.log = item.log || [];
 
                     item.log.forEach(function (error) {
-                        var cleanedError = mochaClean.cleanError(error);
-                        var indentedError = formatError(cleanedError, repeatString('  ', depth));
+                        var stackObject = { stack: error };
+                        var cleanedError = mochaClean.cleanError(stackObject);
+                        var indentedError = formatError(cleanedError.stack, repeatString('  ', depth));
                         line += chalk.red(indentedError);
                     });
                 }
